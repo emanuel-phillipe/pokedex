@@ -23,7 +23,7 @@ export function PokedexHeader({
     <header className="fixed inset-x-0 top-0 z-30 grid h-[86px] grid-cols-[1fr_minmax(380px,610px)_1fr] items-center gap-7 border-b border-zinc-200 bg-white/95 px-[clamp(24px,4.5vw,70px)] backdrop-blur-2xl max-[1000px]:grid-cols-[auto_1fr_auto] max-[720px]:h-[132px] max-[720px]:grid-cols-[1fr_auto] max-[720px]:grid-rows-[auto_auto] max-[720px]:gap-[11px] max-[720px]:px-5 max-[720px]:py-[15px]">
       <a
         href="/"
-        className="inline-flex items-center gap-[11px] justify-self-start text-xl font-[820] tracking-[-.05em] text-zinc-900 no-underline"
+        className="inline-flex items-center gap-[11px] justify-self-start text-3xl font-[820] tracking-[-.05em] text-zinc-900 no-underline"
         aria-label="UltraDéx — início"
       >
         <span
@@ -36,10 +36,10 @@ export function PokedexHeader({
       </a>
 
       <div className="grid grid-cols-[1fr_170px] gap-[9px] max-[720px]:col-span-full max-[720px]:w-full max-[720px]:grid-cols-[1fr_145px] max-[480px]:grid-cols-[1fr_125px]">
-        <label className="flex min-h-[43px] items-center gap-[9px] rounded-lg border border-zinc-300 bg-white px-[13px] text-zinc-500 transition-[border-color,box-shadow] focus-within:border-[#225bc0] focus-within:shadow-[0_0_0_3px_rgba(34,91,192,.09)] max-[480px]:px-2.5">
-          <Search className="shrink-0" size={17} aria-hidden="true" />
+        <label className="flex min-h-[43px] items-center gap-3 rounded-lg border border-zinc-300 bg-white px-4 py-3 text-zinc-500 transition-[border-color,box-shadow] focus-within:border-[#225bc0] focus-within:shadow-[0_0_0_3px_rgba(34,91,192,.09)] max-[480px]:px-2.5">
+          <Search className="shrink-0" size={22} aria-hidden="true" />
           <input
-            className="min-w-0 flex-1 border-0 bg-transparent text-xs text-zinc-800 outline-none placeholder:text-zinc-400"
+            className="min-w-0 flex-1 border-0 bg-transparent text-zinc-800 outline-none placeholder:text-zinc-400"
             type="search"
             value={query}
             onChange={(event) => onQueryChange(event.target.value)}

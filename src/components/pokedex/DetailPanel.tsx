@@ -15,17 +15,7 @@ export function DetailPanel({ pokemon, onClose }: DetailPanelProps) {
       className="absolute top-1/2 right-[clamp(24px,4.5vw,70px)] z-[8] flex h-max w-[min(40vw,500px)] -translate-y-1/2 flex-col justify-center rounded-[14px] border border-zinc-300 bg-white/95 p-[clamp(34px,4vw,58px)] shadow-[0_28px_80px_rgba(24,24,27,.15)] backdrop-blur-[20px] max-[1000px]:right-6 max-[1000px]:w-[46vw] max-[720px]:right-3 max-[720px]:left-3 max-[720px]:max-h-[44vh] max-[720px]:w-auto max-[720px]:justify-start max-[720px]:overflow-y-auto max-[720px]:rounded-xl max-[720px]:px-6 max-[720px]:pt-8 max-[720px]:pb-[23px]"
       aria-label={`Detalhes de ${pokemon.name}`}
     >
-      <button
-        className="absolute top-[18px] right-[18px] cursor-pointer grid size-9 place-items-center rounded-full border border-zinc-300 bg-white text-zinc-800 transition-colors hover:border-zinc-900 hover:bg-zinc-900 hover:text-white max-[720px]:top-3 max-[720px]:right-3"
-        onClick={onClose}
-        aria-label="Fechar detalhes"
-      >
-        <X size={18} />
-      </button>
-      <span className="absolute top-[29px] left-[clamp(34px,4vw,58px)] text-[10px] font-[850] tracking-[.13em] text-zinc-400 max-[720px]:top-[17px] max-[720px]:left-6">
-        {formatPokemonId(pokemon.id)}
-      </span>
-      <div className="mt-4 mb-8 flex items-end justify-between gap-[15px] max-[720px]:mt-[11px]">
+      <div className="mt-4 mb-8 flex items-center flex-col justify-between gap-[15px] max-[720px]:mt-[11px]">
         <h2 className="m-0 min-w-0 text-[clamp(38px,4vw,58px)] leading-[.95] font-medium tracking-[-.065em] [overflow-wrap:anywhere] max-[720px]:text-4xl">
           {pokemon.name}
         </h2>
@@ -35,14 +25,14 @@ export function DetailPanel({ pokemon, onClose }: DetailPanelProps) {
       <div className="border-t border-zinc-200">
         {POKEMON_STATS.map(({ key, label }) => (
           <div
-            className="grid min-h-[53px] grid-cols-[minmax(92px,1fr)_32px_1.3fr] items-center gap-2.5 border-b border-zinc-200/80 max-[720px]:min-h-[42px]"
+            className="grid min-h-[53px] grid-cols-[minmax(92px,1fr)_32px_1.3fr] items-center gap-4 border-b border-zinc-200/80 max-[720px]:min-h-[42px]"
             key={key}
           >
-            <span className="text-[10px] font-semibold text-zinc-600">{label}</span>
-            <strong className="text-right text-xs">{pokemon.stats[key]}</strong>
+            <span className="text font-semibold text-zinc-600">{label}</span>
+            <strong className="text-right text">{pokemon.stats[key]}</strong>
             <i className="block h-1 w-full overflow-hidden rounded-full bg-zinc-200" aria-hidden="true">
               <i
-                className="block h-full origin-left rounded-[inherit] bg-[#d82532] transition-[width] duration-700"
+                className="block h-full origin-left rounded-[inherit] bg-red-600 transition-[width] duration-700"
                 style={{ width: `${Math.min((pokemon.stats[key] / 160) * 100, 100)}%` }}
               />
             </i>
