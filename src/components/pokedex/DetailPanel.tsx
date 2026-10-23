@@ -16,7 +16,7 @@ export function DetailPanel({ pokemon, onClose }: DetailPanelProps) {
       aria-label={`Detalhes de ${pokemon.name}`}
     >
       <div className="mt-4 mb-8 flex items-center flex-col justify-between gap-[15px] max-[720px]:mt-[11px]">
-        <h2 className="m-0 min-w-0 text-[clamp(38px,4vw,58px)] leading-[.95] font-medium tracking-[-.065em] [overflow-wrap:anywhere] max-[720px]:text-4xl">
+        <h2 className="m-0 mb-6 min-w-0 text-[clamp(38px,4vw,58px)] leading-[.95] font-medium tracking-[-.065em] [overflow-wrap:anywhere] max-[720px]:text-4xl">
           {pokemon.name}
         </h2>
         <TypeBadges types={pokemon.types} />

@@ -60,7 +60,7 @@ export function PokedexHeader({
         <label className="flex min-h-[43px] items-center gap-[9px] rounded-lg border border-zinc-300 bg-white px-[13px] text-zinc-500 transition-[border-color,box-shadow] focus-within:border-[#225bc0] focus-within:shadow-[0_0_0_3px_rgba(34,91,192,.09)] max-[480px]:px-2.5">
           <span className="sr-only">Filtrar por tipo</span>
           <select
-            className="min-w-0 flex-1 appearance-none border-0 bg-transparent text-xs font-bold text-zinc-800 outline-none"
+            className="min-w-0 flex-1 appearance-none border-0 bg-transparent font-bold text-zinc-800 outline-none"
             value={selectedType}
             onChange={(event) => onTypeChange(event.target.value)}
           >
