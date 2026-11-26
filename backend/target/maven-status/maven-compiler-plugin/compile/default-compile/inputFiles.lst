@@ -1,0 +1,12 @@
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/PokedexApiApplication.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/configuration/ApplicationConfiguration.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/controller/PokemonController.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/controller/PokemonTypeController.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/dto/CreatePokemonBatchRequest.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/dto/CreatePokemonRequest.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/model/Pokemon.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/model/PokemonType.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/repository/PokemonRepository.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/repository/PokemonTypeRepository.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/service/PokemonService.java
+/home/emanuel-phillipe/Workspace/Projects/pokedex/backend/src/main/java/com/emanuelphillipe/PokedexAPI/service/PokemonTypeService.java
