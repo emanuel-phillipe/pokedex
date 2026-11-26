@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PokemonService {
@@ -66,5 +67,35 @@ public class PokemonService {
         }
 
         return pokemonRepository.saveAll(pokemons);
+    }
+
+    public Optional<Pokemon> update(String id, CreatePokemonRequest pokemonRequest) {
+        if (!pokemonRepository.existsById(id)) {
+            return Optional.empty();
+        }
+
+        Pokemon pokemon = new Pokemon(
+                id,
+                pokemonRequest.Pokemon(),
+                pokemonRequest.HP(),
+                pokemonRequest.Attack(),
+                pokemonRequest.Defense(),
+                pokemonRequest.Special_Attack(),
+                pokemonRequest.Special_Defense(),
+                pokemonRequest.Speed(),
+                pokemonTypeRepository.findByNameIn(pokemonRequest.typesName()),
+                pokemonRequest.image()
+        );
+
+        return Optional.of(pokemonRepository.save(pokemon));
+    }
+
+    public boolean delete(String id) {
+        if (!pokemonRepository.existsById(id)) {
+            return false;
+        }
+
+        pokemonRepository.deleteById(id);
+        return true;
     }
 }

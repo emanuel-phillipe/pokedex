@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -57,5 +58,50 @@ class PokemonServiceTest {
         when(pokemonRepository.findAll()).thenReturn(persistedPokemons);
 
         assertEquals(persistedPokemons, pokemonService.getAll());
+    }
+
+    @Test
+    void updatesAnExistingPokemonAndKeepsItsId() {
+        var request = new CreatePokemonRequest("Raichu", 60, 90, 55, 90, 80, 110,
+                List.of("Electric"), "raichu.png");
+        var types = List.of(new PokemonType("Electric"));
+        var expectedPokemon = new Pokemon("pokemon-25", "Raichu", 60, 90, 55, 90, 80, 110,
+                types, "raichu.png");
+        when(pokemonRepository.existsById("pokemon-25")).thenReturn(true);
+        when(pokemonTypeRepository.findByNameIn(List.of("Electric"))).thenReturn(types);
+        when(pokemonRepository.save(expectedPokemon)).thenReturn(expectedPokemon);
+
+        var updatedPokemon = pokemonService.update("pokemon-25", request);
+
+        assertEquals(expectedPokemon, updatedPokemon.orElseThrow());
+        verify(pokemonRepository).save(expectedPokemon);
+    }
+
+    @Test
+    void doesNotUpdatePokemonThatDoesNotExist() {
+        when(pokemonRepository.existsById("missing")).thenReturn(false);
+
+        var updatedPokemon = pokemonService.update("missing", new CreatePokemonRequest(
+                "Raichu", 60, 90, 55, 90, 80, 110, List.of(), null));
+
+        assertEquals(java.util.Optional.empty(), updatedPokemon);
+        verify(pokemonRepository, never()).save(org.mockito.ArgumentMatchers.any(Pokemon.class));
+    }
+
+    @Test
+    void deletesAnExistingPokemon() {
+        when(pokemonRepository.existsById("pokemon-25")).thenReturn(true);
+
+        assertEquals(true, pokemonService.delete("pokemon-25"));
+
+        verify(pokemonRepository).deleteById("pokemon-25");
+    }
+
+    @Test
+    void doesNotDeletePokemonThatDoesNotExist() {
+        when(pokemonRepository.existsById("missing")).thenReturn(false);
+
+        assertEquals(false, pokemonService.delete("missing"));
+        verify(pokemonRepository, never()).deleteById("missing");
     }
 }

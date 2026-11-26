@@ -37,4 +37,20 @@ public class PokemonController {
     public ResponseEntity<List<Pokemon>> createBatch(@RequestBody CreatePokemonBatchRequest pokemonBatchRequest){
         return ResponseEntity.ok(pokemonService.createBatch(pokemonBatchRequest));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Pokemon> update(@PathVariable String id, @RequestBody CreatePokemonRequest pokemonRequest) {
+        return pokemonService.update(id, pokemonRequest)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        if (!pokemonService.delete(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
 }
