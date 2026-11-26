@@ -1,6 +1,23 @@
-import pokedexData from '#/data/pokedex-data.json'
+export interface PokemonType {
+  id: string
+  name: string
+}
 
-export type Pokemon = (typeof pokedexData.pokemon)[number]
+export interface Pokemon {
+  id: string
+  name: string
+  image: string
+  types: PokemonType[]
+  stats: {
+    hp: number
+    attack: number
+    defense: number
+    specialAttack: number
+    specialDefense: number
+    speed: number
+  }
+}
+
 export type PokemonStatKey = keyof Pokemon['stats']
 
 export const POKEMON_STATS: Array<{
@@ -15,8 +32,3 @@ export const POKEMON_STATS: Array<{
   { key: 'specialDefense', label: 'Special Defense', shortLabel: 'SP. DEF' },
   { key: 'speed', label: 'Speed', shortLabel: 'SPD' },
 ]
-
-export const pokemonImageUrl = (id: number) =>
-  `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`
-
-export const formatPokemonId = (id: number) => `ID ${String(id).padStart(3, '0')}`

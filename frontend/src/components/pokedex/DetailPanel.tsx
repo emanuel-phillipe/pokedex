@@ -1,7 +1,7 @@
 import { X } from 'lucide-react'
 
 import { TypeBadges } from './TypeBadges'
-import { formatPokemonId, POKEMON_STATS } from './pokemon'
+import { POKEMON_STATS } from './pokemon'
 import type { Pokemon } from './pokemon'
 
 interface DetailPanelProps {
@@ -15,6 +15,14 @@ export function DetailPanel({ pokemon, onClose }: DetailPanelProps) {
       className="absolute top-1/2 right-[clamp(24px,4.5vw,70px)] z-[8] flex h-max w-[min(40vw,500px)] -translate-y-1/2 flex-col justify-center rounded-[14px] border border-zinc-300 bg-white/95 p-[clamp(34px,4vw,58px)] shadow-[0_28px_80px_rgba(24,24,27,.15)] backdrop-blur-[20px] max-[1000px]:right-6 max-[1000px]:w-[46vw] max-[720px]:right-3 max-[720px]:left-3 max-[720px]:max-h-[44vh] max-[720px]:w-auto max-[720px]:justify-start max-[720px]:overflow-y-auto max-[720px]:rounded-xl max-[720px]:px-6 max-[720px]:pt-8 max-[720px]:pb-[23px]"
       aria-label={`Detalhes de ${pokemon.name}`}
     >
+      <button
+        className="absolute top-4 right-4 grid size-9 place-items-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
+        type="button"
+        aria-label="Fechar detalhes"
+        onClick={onClose}
+      >
+        <X size={20} />
+      </button>
       <div className="mt-4 mb-8 flex items-center flex-col justify-between gap-[15px] max-[720px]:mt-[11px]">
         <h2 className="m-0 mb-6 min-w-0 text-[clamp(38px,4vw,58px)] leading-[.95] font-medium tracking-[-.065em] [overflow-wrap:anywhere] max-[720px]:text-4xl">
           {pokemon.name}

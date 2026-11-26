@@ -14,7 +14,7 @@ export interface FlexCarouselItem {
   alt?: string;
   title?: string;
   subtitle?: string;
-  id?: number;
+  id?: string;
 }
 
 interface PresetValues {

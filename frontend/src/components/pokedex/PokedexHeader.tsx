@@ -21,6 +21,9 @@ export function PokedexHeader({
 }: PokedexHeaderProps) {
   return (
     <header className="fixed inset-x-0 top-0 z-30 grid h-[86px] grid-cols-[1fr_minmax(380px,610px)_1fr] items-center gap-7 border-b border-zinc-200 bg-white/95 px-[clamp(24px,4.5vw,70px)] backdrop-blur-2xl max-[1000px]:grid-cols-[auto_1fr_auto] max-[720px]:h-[132px] max-[720px]:grid-cols-[1fr_auto] max-[720px]:grid-rows-[auto_auto] max-[720px]:gap-[11px] max-[720px]:px-5 max-[720px]:py-[15px]">
+      <p className="sr-only" aria-live="polite">
+        {resultCount} de {totalCount} Pokémon exibidos
+      </p>
       <a
         href="/"
         className="inline-flex items-center gap-[11px] justify-self-start text-3xl font-[820] tracking-[-.05em] text-zinc-900 no-underline"

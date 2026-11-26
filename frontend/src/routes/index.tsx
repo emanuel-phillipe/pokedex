@@ -7,29 +7,56 @@ import { ActivePokemon } from '#/components/pokedex/ActivePokemon'
 import { CarouselEmptyState } from '#/components/pokedex/CarouselEmptyState'
 import { DetailPanel } from '#/components/pokedex/DetailPanel'
 import { PokedexHeader } from '#/components/pokedex/PokedexHeader'
-import { pokemonImageUrl } from '#/components/pokedex/pokemon'
 import type { Pokemon } from '#/components/pokedex/pokemon'
-import pokedexData from '../data/pokedex-data.json'
+import { fetchPokemons } from '#/lib/pokemon-api'
 
 export const Route = createFileRoute('/')({ component: Home })
 
 function Home() {
   const [query, setQuery] = useState('')
   const [selectedType, setSelectedType] = useState('All')
-  const [activePokemon, setActivePokemon] = useState<Pokemon>(pokedexData.pokemon[0])
+  const [pokemons, setPokemons] = useState<Pokemon[]>([])
+  const [activePokemon, setActivePokemon] = useState<Pokemon | null>(null)
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [requestVersion, setRequestVersion] = useState(0)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    let cancelled = false
+    setIsLoading(true)
+    setError(null)
+
+    fetchPokemons(controller.signal)
+      .then((data) => {
+        if (!cancelled) setPokemons(data)
+      })
+      .catch((requestError: unknown) => {
+        if (cancelled || (requestError instanceof DOMException && requestError.name === 'AbortError')) return
+        setError(requestError instanceof Error ? requestError.message : 'Não foi possível carregar os Pokémon.')
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+      controller.abort()
+    }
+  }, [requestVersion])
 
   const availableTypes = useMemo(
     () =>
       Array.from(
-        new Set(pokedexData.pokemon.flatMap((pokemon) => pokemon.types.map((type) => type.name))),
+        new Set(pokemons.flatMap((pokemon) => pokemon.types.map((type) => type.name))),
       ).sort(),
-    [],
+    [pokemons],
   )
 
   const filteredPokemon = useMemo(() => {
     const normalized = query.trim().toLowerCase().replace(/^#/, '')
-    return pokedexData.pokemon.filter((pokemon) => {
+    return pokemons.filter((pokemon) => {
       const matchesQuery =
         !normalized ||
         pokemon.name.toLowerCase().includes(normalized) ||
@@ -38,13 +65,13 @@ function Home() {
         selectedType === 'All' || pokemon.types.some((type) => type.name === selectedType)
       return matchesQuery && matchesType
     })
-  }, [query, selectedType])
+  }, [pokemons, query, selectedType])
 
   const carouselItems = useMemo<FlexCarouselItem[]>(
     () =>
       filteredPokemon.map((pokemon) => ({
         id: pokemon.id,
-        src: pokemonImageUrl(pokemon.id),
+        src: pokemon.image,
         alt: pokemon.name,
         title: pokemon.name,
         subtitle: pokemon.types.map((type) => type.name).join(' · '),
@@ -54,7 +81,7 @@ function Home() {
 
   useEffect(() => {
     setSelectedPokemon(null)
-    if (filteredPokemon[0]) setActivePokemon(filteredPokemon[0])
+    setActivePokemon(filteredPokemon[0] ?? null)
   }, [filteredPokemon])
 
   const pokemonFromItem = (item: FlexCarouselItem) =>
@@ -67,7 +94,7 @@ function Home() {
         query={query}
         resultCount={filteredPokemon.length}
         selectedType={selectedType}
-        totalCount={pokedexData.pokemon.length}
+        totalCount={pokemons.length}
         onQueryChange={setQuery}
         onTypeChange={setSelectedType}
       />
@@ -80,7 +107,11 @@ function Home() {
           aria-hidden="true"
         />
 
-        {carouselItems.length > 0 ? (
+        {isLoading ? (
+          <LoadingState />
+        ) : error ? (
+          <ErrorState message={error} onRetry={() => setRequestVersion((version) => version + 1)} />
+        ) : carouselItems.length > 0 ? (
           <FlexCarousel
             className="!absolute inset-0 z-[2] !h-screen"
             items={carouselItems}
@@ -121,9 +152,32 @@ function Home() {
           <CarouselEmptyState onClear={() => { setQuery(''); setSelectedType('All') }} />
         )}
 
-        {carouselItems.length > 0 && !selectedPokemon && <ActivePokemon pokemon={activePokemon} />}
+        {carouselItems.length > 0 && !selectedPokemon && activePokemon && <ActivePokemon pokemon={activePokemon} />}
         {selectedPokemon && <DetailPanel pokemon={selectedPokemon} onClose={() => setSelectedPokemon(null)} />}
       </section>
     </main>
+  )
+}
+
+function LoadingState() {
+  return (
+    <div className="absolute inset-0 z-[5] grid place-items-center" role="status">
+      <p className="text-sm font-semibold text-zinc-500">Carregando Pokémon...</p>
+    </div>
+  )
+}
+
+function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
+  return (
+    <div className="absolute inset-0 z-[5] flex flex-col items-center justify-center gap-4 px-6 text-center">
+      <p className="text-sm text-zinc-600">{message}</p>
+      <button
+        className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#225bc0]"
+        type="button"
+        onClick={onRetry}
+      >
+        Tentar novamente
+      </button>
+    </div>
   )
 }

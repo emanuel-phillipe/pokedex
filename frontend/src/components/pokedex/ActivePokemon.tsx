@@ -1,5 +1,4 @@
 import { TypeBadges } from './TypeBadges'
-import { formatPokemonId, POKEMON_STATS } from './pokemon'
 import type { Pokemon } from './pokemon'
 
 interface ActivePokemonProps {
